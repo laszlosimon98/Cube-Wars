@@ -17,3 +17,15 @@ class Ground:
 
     def getType(self):
         return self.type
+    
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+    def get_w(self):
+        return self.w
+
+    def get_h(self):
+        return self.h
