@@ -23,9 +23,10 @@ LAVA = (207, 16, 32)
 SMALL = pygame.display.Info().current_w / 5
 MEDIUM = pygame.display.Info().current_w / 3
 LARGE = pygame.display.Info().current_w / 2
-HEIGHT = 15
+HEIGHT = 40
 
 # Player
-PLAYERSIZE = 20
+PLAYERSIZE = 25
 PLAYERVEL = 5
 PLAYERCOLOR = (0, 255, 0)
+FALLSPEED = 7
