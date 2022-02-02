@@ -28,6 +28,7 @@ class Game:
         self.title = pygame.display.set_caption("Cube Wars")
         self.clock = pygame.time.Clock()
         self.run = True
+        self.bullet = None
 
         self.background = Background(self.w, self.h)
 
@@ -56,12 +57,18 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.run = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    pos = pygame.mouse.get_pos()
+                    self.player.shoot(pos)
 
             key = pygame.key.get_pressed()
             if(key[pygame.K_ESCAPE]):
                 self.run = False
             
             self.player.is_on_platform(self.platforms)
+
+            for _, b in enumerate(self.player.get_bullets()):
+                b.move()
 
             self.draw(self.win)
 
@@ -71,10 +78,11 @@ class Game:
 
     def draw(self, win):
         self.background.draw(self.win)
-
         self.show(win, self.platforms)
+        self.player.draw(win)
 
-        self.player.show(win)
+        for _, b in enumerate(self.player.get_bullets()):
+            b.draw(win)
 
         self.clock.tick(FPS)
         pygame.display.update()

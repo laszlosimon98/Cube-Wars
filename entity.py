@@ -9,7 +9,7 @@ class Entity(ABC):
         self.w = w
         self.color = color
 
-    def show(self, win):
+    def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.w, self.w))
         self.move()
         self.jump()

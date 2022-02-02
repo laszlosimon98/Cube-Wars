@@ -12,12 +12,6 @@ class Ground:
     def draw(self, win):
         pygame.draw.rect(win, self.color, (self.x, self.y, self.w, self.h))
     
-    def isSolid(self):
-        return self.solid
-
-    def getType(self):
-        return self.type
-    
     def get_x(self):
         return self.x
 

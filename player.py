@@ -1,8 +1,8 @@
-from tkinter import E
 from entity import Entity
-from settings import PLAYERVEL, SCREEN_HEIGHT, SCREEN_WIDTH, HEIGHT, FALLSPEED
+from settings import *
 from ground.lava import Lava
 from ground.water import Water
+from bullet import Bullet
 import math
 import pygame
 pygame.init()
@@ -16,6 +16,10 @@ class Player(Entity):
         self.on_platforms = []
         self.in_water = False
         self.in_lava = False
+        self.bullets = []
+    
+    def get_bullets(self):
+        return self.bullets
 
     def move(self):
         key = pygame.key.get_pressed()
@@ -34,6 +38,12 @@ class Player(Entity):
 
         if len(self.on_platforms) == 0 and not self.isjump:
             self.fall()
+    
+    def shoot(self, pos):
+        bullet = Bullet(self.x + self.w / 2, self.y + self.w / 2, BULLETRADIUS, PLAYERCOLOR)
+        direction = math.atan2(pos[0] - self.x - self.w / 2, pos[1] - self.y - self.w / 2)
+        bullet.update(math.sin(direction), math.cos(direction))
+        self.bullets.append(bullet)
                 
     def fall(self):
         self.jump_count = 0
@@ -42,7 +52,7 @@ class Player(Entity):
     def jump(self):
         if self.isjump:
             if self.jump_count > 0:
-                self.y -= self.jump_count ** 2 * 0.1
+                self.y -= self.jump_count ** 2 * 0.15
                 self.jump_count -= 1
             elif self.jump_count == 0:
                 self.falling(self.calc_distance(self.on_platforms))
@@ -60,11 +70,11 @@ class Player(Entity):
             if not self.in_water and not self.in_lava:
                 self.y += FALLSPEED
             elif self.in_water:
-                self.y += FALLSPEED / 5
+                self.y += FALLSPEEDWL
                 self.isjump = False
                 self.jump_count = self.jump_height
             elif self.in_lava:
-                    self.y += FALLSPEED / 5
+                    self.y += FALLSPEEDWL
         else:
             if not self.in_lava:
                 self.jump_count = self.jump_height
